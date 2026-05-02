@@ -115,7 +115,6 @@ body{background:var(--bg);color:var(--t);font-family:var(--f);min-height:100vh;}
 .mbtn{padding:7px 13px;background:transparent;border:1px solid var(--b);color:var(--t2);font-family:var(--fs);font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;}
 .mbtn:hover{border-color:var(--a);color:var(--a);}
 .mbtn.dn{border-color:var(--r);color:var(--r);}
-.mbtn.wa{border-color:var(--t2);color:var(--t2);}
 ::-webkit-scrollbar{width:3px;height:3px;}
 ::-webkit-scrollbar-track{background:var(--bg);}
 ::-webkit-scrollbar-thumb{background:var(--t3);}
@@ -137,7 +136,6 @@ body{background:var(--bg);color:var(--t);font-family:var(--f);min-height:100vh;}
 <div class="ni on" id="nv-pipeline" onclick="showTab('pipeline',this)">Pipeline</div>
 <div class="ni" id="nv-lista" onclick="showTab('lista',this)">Lista</div>
 <div class="ni" onclick="window.open('/admin.html','_blank')">Consultor IA</div>
-<div class="ni" onclick="window.open('/','_blank')">Landing</div>
 </nav>
 <div class="sbf"><div class="user"><div class="ua">M</div><div><div class="un">Manuel S.</div><div class="ur">Admin</div></div><button class="ux" onclick="logout()">X</button></div></div>
 </aside>
@@ -163,10 +161,10 @@ body{background:var(--bg);color:var(--t);font-family:var(--f);min-height:100vh;}
 </div>
 <div class="tp on" id="tp-pipeline">
 <div class="pp">
-<div class="col" id="col-nuevo" data-s="nuevo"><div class="colh"><div class="colht"><div class="dot" style="background:var(--a)"></div>Nuevo</div><div class="coln" id="cn-nuevo">0</div></div><div class="colb" id="b-nuevo"></div></div>
-<div class="col" id="col-contactado" data-s="contactado"><div class="colh"><div class="colht"><div class="dot" style="background:var(--t2)"></div>Contactado</div><div class="coln" id="cn-contactado">0</div></div><div class="colb" id="b-contactado"></div></div>
-<div class="col" id="col-calificado" data-s="calificado"><div class="colh"><div class="colht"><div class="dot" style="background:var(--w)"></div>Calificado</div><div class="coln" id="cn-calificado">0</div></div><div class="colb" id="b-calificado"></div></div>
-<div class="col" id="col-cerrado" data-s="cerrado"><div class="colh"><div class="colht"><div class="dot" style="background:var(--g)"></div>Cerrado</div><div class="coln" id="cn-cerrado">0</div></div><div class="colb" id="b-cerrado"></div></div>
+<div class="col" id="col-nuevo"><div class="colh"><div class="colht"><div class="dot" style="background:var(--a)"></div>Nuevo</div><div class="coln" id="cn-nuevo">0</div></div><div class="colb" id="b-nuevo"></div></div>
+<div class="col" id="col-contactado"><div class="colh"><div class="colht"><div class="dot" style="background:var(--t2)"></div>Contactado</div><div class="coln" id="cn-contactado">0</div></div><div class="colb" id="b-contactado"></div></div>
+<div class="col" id="col-calificado"><div class="colh"><div class="colht"><div class="dot" style="background:var(--w)"></div>Calificado</div><div class="coln" id="cn-calificado">0</div></div><div class="colb" id="b-calificado"></div></div>
+<div class="col" id="col-cerrado"><div class="colh"><div class="colht"><div class="dot" style="background:var(--g)"></div>Cerrado</div><div class="coln" id="cn-cerrado">0</div></div><div class="colb" id="b-cerrado"></div></div>
 </div>
 </div>
 <div class="tp" id="tp-lista">
@@ -182,21 +180,14 @@ body{background:var(--bg);color:var(--t);font-family:var(--f);min-height:100vh;}
 <div class="md">
 <div class="ml">Clasificacion</div><div class="mv" id="m-c">—</div>
 <div class="ml">Impacto</div><div class="mv" id="m-i">—</div>
-<div class="ml">Contacto</div><div class="mv" id="m-k">—</div>
-<div id="m-ctx-s" style="display:none"><div class="ml">Contexto</div><div class="mdi" id="m-ctx">—</div></div>
-<div id="m-dg-s" style="display:none"><div class="ml">Diagnostico IA</div><div class="mdi" id="m-dg">—</div></div>
+<div id="m-dg-s"><div class="ml">Diagnostico IA</div><div class="mdi" id="m-dg">—</div></div>
 </div>
-<div class="mf">
-<button class="mbtn wa" id="m-wa">WhatsApp</button>
-<button class="mbtn" onclick="mover(mL,'contactado')">Contactado</button>
-<button class="mbtn" onclick="mover(mL,'calificado')">Calificado</button>
-<button class="mbtn dn" onclick="mover(mL,'cerrado')">Cerrar</button>
-</div>
+<div class="mf" id="modal-footer"></div>
 </div>
 </div>
 <script>
 var API="https://mesan-api.onrender.com";
-var K="",leads=[],mL=null,cd=30,dragId=null;
+var K="",leads=[],mL=null,cd=30;
 
 function iniciarApp(){
   document.getElementById("login").style.display="none";
@@ -217,112 +208,93 @@ document.getElementById("kb").onclick=function(){
   iniciarApp();
 };
 
-document.getElementById("ki").onkeypress=function(e){
-  if(e.key==="Enter")document.getElementById("kb").click();
-};
-
 var saved=localStorage.getItem("mk");
 if(saved){K=saved;iniciarApp();}
 
 function logout(){localStorage.removeItem("mk");location.reload();}
 
 function showTab(t,el){
-  document.querySelectorAll(".tp").forEach(function(p){p.classList.remove("on");});
-  document.querySelectorAll(".tab,.ni").forEach(function(b){b.classList.remove("on");});
-  var tp=document.getElementById("tp-"+t);
-  if(tp)tp.classList.add("on");
+  document.querySelectorAll(".tp").forEach(p=>p.classList.remove("on"));
+  document.querySelectorAll(".tab,.ni").forEach(b=>b.classList.remove("on"));
+  document.getElementById("tp-"+t).classList.add("on");
   if(el)el.classList.add("on");
   document.getElementById("tt").innerText=t.toUpperCase();
 }
 
 function pr(l){
-  var s=0,t=((l.contexto||"")+(l.diagnostico||"")).toLowerCase();
-  if(t.indexOf("clausura")>=0)s+=100;
-  if(t.indexOf("imss")>=0)s+=60;
-  if(t.indexOf("critico")>=0)s+=80;
-  var c=(l.clasificacion||"").toUpperCase();
+  let s=0,t=((l.contexto||"")+(l.diagnostico||"")).toLowerCase();
+  if(t.includes("clausura"))s+=100;
+  if(t.includes("imss"))s+=60;
+  let c=(l.clasificacion||"").toUpperCase();
   if(c==="ALTO"||c==="CRITICO")s+=50;
-  else if(c==="MEDIO")s+=30;
-  else s+=10;
-  if(l.impacto_max)s+=Math.min(l.impacto_max/1000,100);
-  return Math.round(s);
+  return Math.round(s + (l.impacto_max?l.impacto_max/10000:0));
 }
-
-function cc(p){return p>150?"var(--r)":p>90?"var(--w)":"var(--a)";}
-function bcls(p){return p>150?"c":p>90?"a":"m";}
-function bdg(c){var u=(c||"").toUpperCase();if(u==="ALTO"||u==="CRITICO")return"bd ba";if(u==="MEDIO")return"bd bw";return"bd bb";}
-function fmt(f){if(!f)return"—";try{var d=new Date(f.indexOf("Z")>=0?f:f+"Z");return(d.getDate()+"").padStart(2,"0")+"/"+(d.getMonth()+1+"").padStart(2,"0");}catch(e){return"—";}}
 
 async function load(){
   try{
-    var r=await fetch(API+"/leads",{headers:{"api-key":K}});
-    if(r.status===403){alert("API Key invalida");logout();return;}
-    var d=await r.json();
-    leads=(d.leads||[]).map(function(l){return Object.assign({},l,{_p:pr(l)});});
-    leads.sort(function(a,b){return b._p-a._p;});
-    kpi();pipeline();lista();alertas();cd=30;
+    let r=await fetch(API+"/leads",{headers:{"api-key":K}});
+    let d=await r.json();
+    leads=(d.leads||[]).map(l=>({...l,_p:pr(l)}));
+    kpi();pipeline();lista();alertas();
   }catch(e){console.error(e);}
-}
-
-function alertas(){
-  var c=leads.filter(function(l){return l._p>150&&l.estatus!=="cerrado";});
-  if(c.length>0){
-    document.getElementById("alert").style.display="flex";
-    document.getElementById("atxt").innerText=c.length+" lead(s) critico(s)";
-  }
 }
 
 function kpi(){
   document.getElementById("k1").innerText=leads.length;
-  document.getElementById("k2").innerText=leads.filter(function(l){var c=(l.clasificacion||"").toUpperCase();return c==="ALTO"||c==="CRITICO";}).length;
-  document.getElementById("k4").innerText=leads.filter(function(l){return l.estatus==="cerrado";}).length;
-  var t=leads.reduce(function(s,l){return s+(l.impacto_max||0);},0);
-  document.getElementById("k3").innerText=t>=1000000?"$"+(t/1000000).toFixed(1)+"M":"$"+(t/1000).toFixed(0)+"K";
+  document.getElementById("k2").innerText=leads.filter(l=>l._p>100).length;
+  let t=leads.reduce((s,l)=>s+(l.impacto_max||0),0);
+  document.getElementById("k3").innerText="$"+(t/1000).toFixed(0)+"K";
+  document.getElementById("k4").innerText=leads.filter(l=>l.estatus==="cerrado").length;
 }
 
 function pipeline(){
-  ["nuevo","contactado","calificado","cerrado"].forEach(function(s){
+  ["nuevo","contactado","calificado","cerrado"].forEach(s=>{
     document.getElementById("b-"+s).innerHTML="";
-    document.getElementById("cn-"+s).innerText=0;
+    document.getElementById("cn-"+s).innerText="0";
   });
-  leads.forEach(function(l){
-    var e=l.estatus||"nuevo";
-    var b=document.getElementById("b-"+e);
+  leads.forEach(l=>{
+    let e=l.estatus||"nuevo";
+    let b=document.getElementById("b-"+e);
     if(!b)return;
     document.getElementById("cn-"+e).innerText=parseInt(document.getElementById("cn-"+e).innerText)+1;
-    var p=Math.min((l._p/200)*100,100);
-    var tel=(l.telefono||"").replace(/\D/g,"");
-    var el=document.createElement("div");
-    el.className="lc "+bcls(l._p);
-    el.innerHTML='<div class="ln">'+(l.nombre||"Sin nombre")+'</div>'
-      +(l.giro?'<div class="lg">'+l.giro+'</div>':"")
-      +'<div class="li">$'+(l.impacto_max||0).toLocaleString()+' MXN</div>'
-      +'<span class="'+bdg(l.clasificacion)+'">'+(l.clasificacion||"N/A")+'</span>'
-      +'<div class="pr"><div class="pf" style="width:'+p+'%;background:'+cc(l._p)+'"></div></div>'
-      +'<div class="la">'
-      +(tel?'<button class="ab2" onclick="event.stopPropagation();waL(\''+tel+'\',\''+encodeURIComponent(l.whatsapp||"")+'\')" style="color:var(--t2)">WA</button>':"")
-      +'<button class="ab2" onclick="event.stopPropagation();mover(\''+l.id+'\',\'contactado\')">-></button>'
-      +'<button class="ab2" onclick="event.stopPropagation();mover(\''+l.id+'\',\'cerrado\')">OK</button>'
-      +'</div>';
-    var lid=l.id;
-    el.onclick=function(){abrirModal(lid);};
+    let el=document.createElement("div");
+    el.className="lc "+(l._p>100?"c":l._p>50?"a":"m");
+    el.innerHTML=`<div class="ln">${l.nombre||'S/N'}</div><div class="li">$${(l.impacto_max||0).toLocaleString()}</div>`;
+    el.onclick=()=>abrirModal(l.id);
     b.appendChild(el);
-  });
-  ["nuevo","contactado","calificado","cerrado"].forEach(function(s){
-    var b=document.getElementById("b-"+s);
-    if(!b.children.length)b.innerHTML='<div class="empty"><span>o</span><p>Sin leads</p></div>';
   });
 }
 
 function lista(){
-  var f=leads;
-  var q=document.getElementById("si").value.toLowerCase();
-  if(q)f=f.filter(function(l){return(l.nombre||"").toLowerCase().indexOf(q)>=0||(l.email||"").toLowerCase().indexOf(q)>=0;});
-  var b=document.getElementById("lb");
-  if(!f.length){b.innerHTML='<div class="empty" style="padding:28px"><span>o</span><p>Sin resultados</p></div>';return;}
-  b.innerHTML=f.map(function(l){
-    var tel=(l.telefono||"").replace(/\D/g,"");
-    var cls=((l.clasificacion||"").toUpperCase()==="ALTO"||((l.clasificacion||"").toUpperCase()==="CRITICO"))?"c":(l.clasificacion||"").toUpperCase()==="MEDIO"?"a":"m";
-    return'<div class="tr '+cls+'" onclick="abrirModal(\''+l.id+'\')">'
-      +'<div><div class="rn">'+(l.nombre||"Sin nombre")+'</div><div class="rs">'+(l.giro||"—")+'</div></div>'
-      +'<div class="rm"
+  let b=document.getElementById("lb");
+  b.innerHTML=leads.map(l=>`
+    <div class="tr" onclick="abrirModal('${l.id}')">
+      <div class="rn">${l.nombre}</div>
+      <div class="rm">$${l.impacto_max}</div>
+      <div class="rm">${l.clasificacion}</div>
+      <div class="rm">${l._p}</div>
+      <div class="rm">${l.fecha||'—'}</div>
+      <div class="ra"><button class="rb">Ver</button></div>
+    </div>`).join('');
+}
+
+function abrirModal(id){
+  mL=leads.find(l=>l.id===id);
+  document.getElementById("m-t").innerText=mL.nombre;
+  document.getElementById("m-c").innerText=mL.clasificacion;
+  document.getElementById("m-dg").innerText=mL.diagnostico||"Sin diagnostico";
+  document.getElementById("mo").style.display="flex";
+}
+
+function cerrarModal(){document.getElementById("mo").style.display="none";}
+
+function filtrar(){
+  let q=document.getElementById("si").value.toLowerCase();
+  let trs=document.querySelectorAll("#lb .tr");
+  trs.forEach(t=>{
+    t.style.display=t.innerText.toLowerCase().includes(q)?"grid":"none";
+  });
+}
+</script>
+</body>
+</html>
