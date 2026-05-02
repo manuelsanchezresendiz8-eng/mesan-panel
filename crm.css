@@ -1,63 +1,48 @@
+/* ESTILO MESAN OMEGA - REALISMO RADICAL */
 :root {
     --bg-dark: #04060A;
-    --card-bg: rgba(10, 15, 25, 0.8);
+    --card-bg: rgba(10, 15, 25, 0.9);
     --neon-blue: #00D1FF;
-    --neon-purple: #9D50BB;
     --neon-red: #FF3B3B;
     --border-glass: rgba(255, 255, 255, 0.1);
 }
 
 body {
     background-color: var(--bg-dark);
-    color: white;
+    color: #E4E5E6;
     font-family: 'Inter', sans-serif;
     background-image: radial-gradient(circle at 50% 50%, #0a101f 0%, #04060a 100%);
-    margin: 0;
+    margin: 0; min-height: 100vh; display: flex; justify-content: center;
 }
 
-.panel-container {
-    display: grid;
-    grid-template-columns: 1fr 1.5fr 1fr;
-    gap: 20px;
-    padding: 30px;
+.main-container { width: 100%; max-width: 1200px; padding: 40px 20px; }
+header { text-align: center; margin-bottom: 40px; }
+.neon-text { font-size: 2.5rem; letter-spacing: 4px; color: var(--neon-blue); text-shadow: 0 0 15px rgba(0, 209, 255, 0.6); }
+.tagline { font-size: 0.8rem; color: #666; text-transform: uppercase; letter-spacing: 2px; }
+
+.panel-grid { display: grid; grid-template-columns: 1fr 1.5fr 0.8fr; gap: 20px; }
+.glass-card { background: var(--card-bg); backdrop-filter: blur(20px); border: 1px solid var(--border-glass); border-radius: 12px; padding: 25px; }
+.section-title { font-size: 0.8rem; color: var(--neon-blue); border-bottom: 1px solid var(--border-glass); padding-bottom: 10px; margin-bottom: 20px; }
+
+.modern-input { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border-glass); padding: 12px; color: white; border-radius: 5px; margin-bottom: 15px; box-sizing: border-box; }
+
+.btn-primary {
+    background: linear-gradient(90deg, #00416A, #152b47);
+    color: white; border: 1px solid var(--neon-blue); padding: 15px; width: 100%; border-radius: 5px; font-weight: bold; cursor: pointer; margin-bottom: 10px;
 }
 
-.glass-card {
-    background: var(--card-bg);
-    backdrop-filter: blur(15px);
-    border: 1px solid var(--border-glass);
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+.btn-alert {
+    background: linear-gradient(90deg, #8E0E00, #4d0900);
+    color: white; border: 1px solid var(--neon-red); padding: 15px; width: 100%; border-radius: 5px; font-weight: bold; cursor: pointer;
 }
 
-/* Botones con la estética de la foto */
-.btn-diagnostico {
-    background: linear-gradient(90deg, #00416A, #E4E5E6); /* Gradiente azul de la imagen */
-    color: white;
-    border: none;
-    padding: 15px;
-    width: 100%;
-    border-radius: 5px;
-    font-weight: bold;
-    cursor: pointer;
-    text-transform: uppercase;
-}
+.alert-box { margin-top: 20px; background: rgba(255, 59, 59, 0.1); border: 1px solid var(--neon-red); padding: 15px; border-radius: 8px; }
+.alert-header { color: var(--neon-red); font-weight: bold; }
 
-.btn-repse {
-    background: linear-gradient(90deg, #8E0E00, #1F1C18); /* Rojo de alerta */
-    border: 1px solid var(--neon-red);
-    color: white;
-    padding: 12px;
-    margin-top: 10px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 5px;
-}
+.chat-display { height: 200px; background: rgba(0,0,0,0.3); border-radius: 5px; padding: 10px; overflow-y: auto; margin-bottom: 10px; font-size: 0.9rem; }
+.chat-input-area { display: flex; gap: 5px; }
+.chat-input-area input { flex-grow: 1; background: #111; border: 1px solid #333; color: white; padding: 10px; }
+.chat-input-area button { background: var(--neon-blue); border: none; padding: 10px; cursor: pointer; font-weight: bold; }
 
-.neon-text {
-    color: var(--neon-blue);
-    text-shadow: 0 0 10px var(--neon-blue);
-}
+.kpi-item { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 0.8rem; }
+.val.red { color: var(--neon-red); } .val.orange { color: #FFA500; } .val.blue { color: var(--neon-blue); }
