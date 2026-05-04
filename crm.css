@@ -1,84 +1,88 @@
-/* MESAN Ω v26 — EXECUTIVE INTELLIGENCE INTERFACE */
+/* MESAN Ω v26 — ULTRA-PREMIUM CORE INTERFACE */
 :root {
-    --bg-dark: #050505;
-    --card-bg: #0d0d0d;
+    --bg-main: #020617;
+    --glass-bg: rgba(15, 23, 42, 0.7);
     --electric-cyan: #38bdf8;
-    --text-main: #e2e8f0;
-    --text-dim: #94a3b8;
-    --border-tech: rgba(56, 189, 248, 0.2);
+    --neon-blue: rgba(56, 189, 248, 0.4);
+    --critical-red: #ef4444;
 }
 
 body {
-    background-color: var(--bg-dark);
-    color: var(--text-main);
-    font-family: 'Inter', 'Segoe UI', sans-serif;
-    margin: 0;
+    background: radial-gradient(circle at top, #0f172a 0%, #020617 100%);
+    color: #f8fafc;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Efecto de Cristal para los bloques superiores */
+.stats-container {
+    display: flex;
+    gap: 15px;
     padding: 20px;
 }
 
-h1, .pipeline-title {
-    color: var(--electric-cyan);
-    letter-spacing: -1px;
-    text-transform: uppercase;
-    font-size: 1.2rem;
+.stat-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    flex: 1;
+    text-align: center;
 }
 
-/* Contenedor de métricas superiores */
-.stats-header {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    margin-bottom: 30px;
-    border-bottom: 1px solid #222;
-    padding-bottom: 20px;
-}
-
-.stat-item b {
-    display: block;
-    font-size: 1.8rem;
-    color: var(--electric-cyan);
-    text-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
-}
-
-/* Tarjetas de Leads */
+/* Estilo para las tarjetas de Leads (Pipeline) */
 .lead-card {
-    background: var(--card-bg);
-    border: 1px solid #1a1a1a;
-    border-left: 3px solid var(--electric-cyan);
-    padding: 15px;
-    border-radius: 4px;
-    transition: all 0.3s ease;
+    background: linear-gradient(145deg, rgba(30, 41, 59, 0.6), rgba(15, 23, 42, 0.9));
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 15px;
+    position: relative;
+    overflow: hidden;
 }
 
-.lead-card:hover {
-    border-color: var(--electric-cyan);
-    box-shadow: 0 0 15px rgba(56, 189, 248, 0.1);
-    transform: translateY(-2px);
+/* La línea de color a la izquierda de cada tarjeta */
+.lead-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 15%;
+    height: 70%;
+    width: 4px;
+    border-radius: 0 4px 4px 0;
+    background: var(--electric-cyan);
+    box-shadow: 0 0 10px var(--neon-blue);
 }
 
 .lead-name {
-    font-weight: bold;
-    color: var(--text-main);
-    margin-bottom: 10px;
+    color: var(--electric-cyan);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .lead-value {
-    color: var(--electric-cyan);
-    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.4rem;
+    font-weight: 300;
+    color: #fff;
+    margin: 10px 0;
 }
 
-/* Botones y Acciones */
+/* Botones con estilo Aether-Quantum */
 button {
-    background: transparent;
-    border: 1px solid var(--border-tech);
+    background: rgba(56, 189, 248, 0.1);
+    border: 1px solid var(--electric-cyan);
     color: var(--electric-cyan);
-    padding: 8px 12px;
-    cursor: pointer;
-    text-transform: uppercase;
-    font-size: 0.7rem;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: bold;
+    transition: 0.3s;
+    text-shadow: 0 0 5px var(--neon-blue);
 }
 
 button:hover {
     background: var(--electric-cyan);
     color: #000;
+    box-shadow: 0 0 20px var(--neon-blue);
 }
